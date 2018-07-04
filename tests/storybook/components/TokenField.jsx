@@ -82,6 +82,8 @@ const tokenTypes = [
         getOptions:  () => fakeAPI('', 3000, countries), findOptions: filter => fakeAPI(filter, 3000, countries)
       },
       renderHeader: <h3>Countries</h3>,
+      renderTop:    <div><i>The very top</i></div>,
+      renderBottom: <div><i>The very bottom</i></div>,
       showSearch:   false
     },
   },

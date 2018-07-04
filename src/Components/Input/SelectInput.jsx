@@ -206,6 +206,7 @@ export default class SelectInput extends TokenInput {
     return (
       <div className="dp-select">
         <div className="dp-select__content">
+          {this.renderTop()}
           <Scrollbar>
             <List className="dp-selectable-list">
               { showSearch ?
@@ -222,6 +223,7 @@ export default class SelectInput extends TokenInput {
               {this.renderFooter()}
             </List>
           </Scrollbar>
+          {this.renderBottom()}
         </div>
       </div>
     );
@@ -248,6 +250,14 @@ export default class SelectInput extends TokenInput {
       return '________';
     }
     return this.renderItem(valueOption);
+  };
+
+  renderTop = () => {
+    const { renderTop } = this.props;
+    if (typeof renderTop === 'function') {
+      return renderTop();
+    }
+    return renderTop;
   };
 
   renderHeader = () => {
@@ -332,6 +342,14 @@ export default class SelectInput extends TokenInput {
     }
     return renderFooter;
   };
+
+  renderBottom = () => {
+    const { renderBottom } = this.props;
+    if (typeof renderBottom === 'function') {
+      return renderBottom();
+    }
+    return renderBottom;
+  };
 }
 
 SelectInput.propTypes = {
@@ -345,13 +363,21 @@ SelectInput.propTypes = {
     getOptions:  PropTypes.oneOfType([PropTypes.func, PropTypes.array]).isRequired,
     findOptions: PropTypes.func,
   }).isRequired,
-  isMultiple:   PropTypes.bool,
+  isMultiple: PropTypes.bool,
+  renderTop:  PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.node,
+  ]),
   renderHeader: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.node,
   ]),
   renderItem:   PropTypes.func,
   renderFooter: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.node,
+  ]),
+  renderBottom: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.node,
   ]),
@@ -362,9 +388,11 @@ SelectInput.propTypes = {
 SelectInput.defaultProps = {
   ...TokenInput.defaultProps,
   isMultiple:            false,
+  renderTop:             null,
   renderHeader:          null,
   renderItem:            null,
   renderFooter:          null,
+  renderBottom:          null,
   showSearch:            true,
   selectionsTranslation: 'selections',
 };
