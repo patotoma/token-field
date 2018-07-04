@@ -158,35 +158,41 @@ it('+++capturing Snapshot of SelectInput value', () => {
 });
 
 describe('testSelectInput', () => {
-  // let wrapper;
+  let wrapper;
   const map = {};
   const selectNextToken = jest.fn();
   const selectPreviousToken = jest.fn();
   const onChange = jest.fn();
 
-  // const token = {
-  //   type:  'country',
-  //   value: 'GB'
-  // };
+  const token = {
+    type:  'country',
+    value: 'GB'
+  };
 
   beforeEach(() => {
     document.addEventListener = jest.fn((event, cb) => {
       map[event] = cb;
     });
-    // wrapper = mount(
-    //   <SelectInput
-    //     dataSource={{ getOptions: options }}
-    //     token={token}
-    //     className="test"
-    //     renderHeader={() => <h4>Countries</h4>}
-    //     renderFooter={() => <span className="footer">Footer</span>}
-    //     renderItem={option => <span>{option.value} - {option.label}</span>}
-    //     selectPreviousToken={selectPreviousToken}
-    //     selectNextToken={selectNextToken}
-    //     onChange={onChange}
-    //     removeToken={noop}
-    //   />
-    // );
+    wrapper = mount(
+      <SelectInput
+        dataSource={{ getOptions: options }}
+        token={token}
+        className="test"
+        renderHeader={() => <h4>Countries</h4>}
+        renderFooter={() => <span className="footer">Footer</span>}
+        renderItem={option => <span>{option.value} - {option.label}</span>}
+        selectPreviousToken={selectPreviousToken}
+        selectNextToken={selectNextToken}
+        onChange={onChange}
+        removeToken={noop}
+      />
+    );
+  });
+
+  it('should be in editMode after focus', () => {
+    expect(wrapper.state('editMode')).toEqual(false);
+    wrapper.instance().focus();
+    expect(wrapper.state('editMode')).toEqual(true);
   });
 
   // it('should show the option list when clicked', () => {
